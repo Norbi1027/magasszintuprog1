@@ -1,0 +1,179 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <vector>
+#include <fstream>
+#include <ranges>
+#include <string_view>
+#include <algorithm>
+
+using namespace std;
+
+bool is_prime(int num) {
+
+    if (num <= 1) return false;
+    else {
+
+        int divisors_count = 0;
+
+        for (int i = 1; i <= num; i++) if (num % i == 0) divisors_count++;
+
+        if (divisors_count > 2) return false;
+        else return true;
+    }
+
+    return false;
+
+}
+
+int prime_between(int num1, int num2) {
+
+    int count = 0;
+
+    for (int i = num1; i <= num2; i++) if (is_prime(i)) count++;
+
+    return count++;
+    
+}
+
+void row_max(int matrix[10][10], int out[10]) {
+
+    for (int i = 0; i < 10; i++) {
+
+        int max = 0;
+        for (int j = 0; j < 10; j++) {
+
+            if (matrix[i][j] > max) max = matrix[i][j];
+
+        }
+        
+        out[i] = max;
+
+    }
+
+}
+
+void copy(int *a, int b, int t[10]) {
+
+    *a = t[b];
+
+}
+
+struct Alma {
+
+    string fajta;
+    string szin;
+};
+
+ostream& operator<< (ostream& os, const Alma& a) {
+    return os << a.fajta << " " << a.szin << endl;
+}
+
+int main() {
+
+    // FELADAT 1
+
+    cout << "Primes number between 10 and 40: " << prime_between(10, 40) << endl;
+    
+    cout << endl;
+
+    // FELADAT 2
+
+    int matrix[10][10] = {
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+        {20, 10, 30, 40, 50, 20, 70, 10, 40, 10},
+    };
+
+    int output[10];
+
+    row_max(matrix, output);
+
+    for (int i = 0; i < 10; i++)
+        cout << "Matrix row " << i << " max: " << output[i] << endl;
+
+    cout << endl;
+
+    // FELADAT 3
+
+    int a = 10;
+    cout << "'a' erteke: " << a << endl;
+
+    int b = 3;
+    int t[10] = {2, 4, 1, 7, 3, 8, 3, 2, 6, 1};
+
+    copy(&a, b, t);
+
+    cout << "'a' erteke: " << a << endl;
+
+    cout << endl;
+
+    // FELADAT 4
+
+    Alma alma_tomb[5] = {
+        Alma{"tipus1", "piros"},
+        Alma{"tipus2", "zold"},
+        Alma{"tipus3", "piros"},
+        Alma{"tipus4", "zold"},
+        Alma{"tipus5", "zold"},
+    };
+
+    vector<Alma> pirosak;
+    vector<Alma> zoldek;
+
+    for (int i = 0; i < 5; i++) {
+        
+        if (alma_tomb[i].szin == "piros") pirosak.push_back(alma_tomb[i]);
+        else zoldek.push_back(alma_tomb[i]);
+
+    }
+    
+    cout << "Pirosak (" << pirosak.size() << "):" << endl;
+    for (int i = 0; i < pirosak.size(); i++)  cout << pirosak.at(i);
+    
+    cout << "ZÃ¶ldek (" << zoldek.size() << "):" << endl;
+    for (int i = 0; i < zoldek.size(); i++)  cout << zoldek.at(i);
+
+    cout << endl;
+
+    // FELADAT 5
+
+    ifstream file("randomok.txt");
+    string line;
+
+    while (getline(file, line)) {
+
+        vector<int> numbers;
+
+        string temp_num = "";
+
+        for (char i = 0; i < line.length(); i++) {
+                                    
+            if (line.at(i) != ' ') temp_num.push_back(line.at(i));
+            else {
+                numbers.push_back(stoi(temp_num));
+                temp_num = "";
+            } 
+
+        }
+
+        sort(numbers.begin(), numbers.end());
+
+        for (int i = 0; i < numbers.size(); i++) {
+            cout << numbers.at(i) << " ";
+        }
+        cout << endl;
+
+
+    }
+
+    return 0;
+
+}
