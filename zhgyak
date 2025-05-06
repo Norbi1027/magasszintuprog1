@@ -1,0 +1,115 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+int maxhely2(int tomb2[10]){
+    int max = 0;
+    int hely = 0;
+    for(int i = 0; i<10; i++){
+        if(tomb2[i]>max){
+            max = tomb2[i];
+            hely = i;
+        }
+    }
+    return hely;
+}
+
+void rendez2(int tomb[],int n)
+{
+    for(int i = 0; i<n-1; i++)
+{
+    for(int j = 0; j<n-1; j++)
+    {
+        if(tomb[j]<tomb[j+1])
+        {
+            int temp = tomb[j];
+            tomb[j] = tomb[j+1];
+            tomb[j+1] = temp;
+        }
+    }
+}
+}
+
+void csere(int& a, int& b, int& c){
+    int temp = a;
+    a = c;
+    c = temp;
+
+    temp = a;
+    a = b;
+    b = temp;
+
+    temp = b;
+    b = c;
+    c = temp;
+}
+
+struct zokni{
+    string szin;
+    int meret;
+    string nem;
+};
+
+int main(){
+
+    int tomb[10] = {1, 2, 3, 4, 3223, 6, 7, 8, 9, 10};
+    cout << maxhely2(tomb) << endl;
+    rendez2(tomb, 10);
+    for(int i = 0; i<10; i++){
+        cout << tomb[i] << " ";
+    }
+    cout << endl;
+
+    int a = 1;
+    int b = 2;
+    int c = 3;
+    csere(a, b, c);
+    cout << a << " " << b << " " << c << endl;
+
+    ifstream ifile("zokni.txt");
+    zokni zolvas;
+    vector<zokni> zoknik;
+    while (ifile >> zolvas.szin >> zolvas.meret >> zolvas.nem){
+        zoknik.push_back(zolvas);
+        cout << zolvas.szin << " " << zolvas.meret << " " << zolvas.nem << endl;
+    }
+
+    cout << "renderezett zoknik: " << endl;
+    vector <zokni> noi;
+    for(zokni z : zoknik){
+        if(z.nem == "noi"){
+            noi.push_back(z);
+            cout << noi.back().szin << " " << noi.back().meret << " " << noi.back().nem << endl;
+        }
+    }
+
+    int matrix [4][4];
+    for(int i = 0; i<4; i++){
+        for(int j = 0; j<4; j++){
+            cout << "Adja meg a mátrix" << i << "sor" << j << "edik elemét" << endl;
+            cin >> matrix [i][j];
+        }
+    }
+
+    for(int i = 0; i<4; i++){
+        for(int j = 0; j<4; j++){
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    float atlag1 = 0;
+    float atlag2 = 0;
+    for(int i = 0; i<4; i++){
+        atlag1 += matrix [i][i];
+        atlag2 += matrix[i][3-i];
+    }
+    float aatlag1 = atlag1/4;
+    float aatlag2 = atlag2/4;
+
+    cout << "Főátló átlaga:" << aatlag1 << "mellékátló átlaga:" << aatlag2 << endl;
+
+}
